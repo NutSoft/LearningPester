@@ -1,6 +1,6 @@
 ﻿$srcFile = $MyInvocation.MyCommand.Path `
-    -replace 'LearningPester\\tests\\(.*?)\.Test\\(.*?)\.Tests\.ps1', `
-             'LearningPester \src\$1\$2.ps1' 
+    -replace 'LearningPester\\tests\\(.*?)\.Tests\.ps1', `
+             'LearningPester\src\$1.ps1' 
 "$srcFile"
 . $srcFile
 
