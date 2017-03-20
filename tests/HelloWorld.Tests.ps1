@@ -53,3 +53,28 @@ Describe 'Get-TextFileNames' {
     }
     
 }
+
+function GetFilesLackingItem([string]$pattern) {
+    $filesFound = Get-ChildItem -Recurse *.csproj |
+    Where-Object { !( Select-String -Pattern $pattern -Path $_.FullName ) }
+    if ($filesFound) { $filesFound.Name } else { @() }
+}
+    
+Describe "GetFilesLackingItem" {
+    Context "checks some files" {
+        It "reports subset of files missing item" {
+            $fileList = "nameA", "nameB", "nameC", "nameD", "nameE" | ForEach-Object {
+                [PSCustomObject]@{ FullName = $_; Name = $_; }
+            }
+
+            Mock Get-ChildItem { return $fileList }
+            $filter = '(B|D|E)$'
+            Mock Select-String { "matches found" }  -param { $Path -match $filter }
+            Mock Select-String 
+        
+            $result = GetFilesLackingItem "dummy"
+        
+            $result.Count | Should Be ($fileList.Name -notmatch $filter).Count
+        }
+    }
+}
