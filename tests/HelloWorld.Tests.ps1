@@ -19,38 +19,36 @@ Describe "HelloWorld" {
     }
 }
 
+function CreateFileList([string[]]$names) {
+    $names | ForEach-Object {
+        [PSCustomObject]@{ FullName = "c:\foo\bar\$_"; Name = $_; }
+    }
+    
+}
+
 Describe 'Get-TextFileNames' {
     
     It 'returns one text file when that is all there is' {
-        Mock Get-ChildItem {
-                [PSCustomObject]@{ Name = 'a923e023.txt' }
-        }
+        $myList = 'a923e023.txt'
+        Mock Get-ChildItem { CreateFileList $myList }
         Get-TextFileNames | Should Be 'a923e023.txt'
     }
     
     It 'returns one text file when there are assorted files' {
-        Mock Get-ChildItem {
-            [PSCustomObject]@{ Name = 'a923e023.txt' },
-            [PSCustomObject]@{ Name = 'wlke93jw3.doc' }
-        }
+        $myList = 'a923e023.txt','wlke93jw3.doc'
+        Mock Get-ChildItem { CreateFileList $myList }
         Get-TextFileNames | Should Be 'a923e023.txt'
     }
     
     It 'returns multiple text files amongst assorted files' {
-        Mock Get-ChildItem {
-            [PSCustomObject]@{ Name = 'a923e023.txt' },
-            [PSCustomObject]@{ Name = 'wlke93jw3.doc' },
-            [PSCustomObject]@{ Name = 'ke923jd.txt' },
-            [PSCustomObject]@{ Name = 'qq02000.doc' }
-        }
+        $myList = 'a923e023.txt','wlke93jw3.doc','ke923jd.txt','qq02000.doc'
+        Mock Get-ChildItem { CreateFileList $myList }
         Get-TextFileNames | Should Be ('a923e023.txt','ke923jd.txt')
     }
     
     It 'returns nothing when there are no text files' {
-        Mock Get-ChildItem {
-            [PSCustomObject]@{ Name = 'wlke93jw3.doc' },
-            [PSCustomObject]@{ Name = 'qq02000.doc' }
-        }
+        $myList = 'wlke93jw3.doc','qq02000.doc'
+        Mock Get-ChildItem { CreateFileList $myList }
         Get-TextFileNames | Should BeNullOrEmpty
     }
     

@@ -3,5 +3,5 @@
 }
 
 function Get-TextFileNames() {
-    Get-ChildItem | Where Name -like *.txt | Select -expand Name
+    Get-ChildItem | Where-Object Name -like *.txt | Select-Object -ExpandProperty Name
 }
