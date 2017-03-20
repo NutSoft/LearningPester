@@ -1,6 +1,7 @@
 ﻿$srcFile = $MyInvocation.MyCommand.Path `
-    -replace 'MySolution\\tests\\(.*?)\.Test\\(.*?)\.Tests\.ps1', `
-             'MySolution \src\$1\$2.ps1' 
+    -replace 'LearningPester\\tests\\(.*?)\.Test\\(.*?)\.Tests\.ps1', `
+             'LearningPester \src\$1\$2.ps1' 
+"$srcFile"
 . $srcFile
 
 Describe "HelloWorld" {
