@@ -52,30 +52,30 @@ function CreateFileList([string[]]$names) {
 
 }
 
-Describe 'Get-TextFileNames' {
+Describe 'Get-TextFileName' {
 
     It 'returns one text file when that is all there is' {
         $myList = 'a923e023.txt'
         Mock Get-ChildItem { CreateFileList $myList }
-        Get-TextFileNames | Should Be 'a923e023.txt'
+        Get-TextFileName | Should Be 'a923e023.txt'
     }
 
     It 'returns one text file when there are assorted files' {
         $myList = 'a923e023.txt','wlke93jw3.doc'
         Mock Get-ChildItem { CreateFileList $myList }
-        Get-TextFileNames | Should Be 'a923e023.txt'
+        Get-TextFileName | Should Be 'a923e023.txt'
     }
 
     It 'returns multiple text files amongst assorted files' {
         $myList = 'a923e023.txt','wlke93jw3.doc','ke923jd.txt','qq02000.doc'
         Mock Get-ChildItem { CreateFileList $myList }
-        Get-TextFileNames | Should Be ('a923e023.txt','ke923jd.txt')
+        Get-TextFileName | Should Be ('a923e023.txt','ke923jd.txt')
     }
 
     It 'returns nothing when there are no text files' {
         $myList = 'wlke93jw3.doc','qq02000.doc'
         Mock Get-ChildItem { CreateFileList $myList }
-        Get-TextFileNames | Should BeNullOrEmpty
+        Get-TextFileName | Should BeNullOrEmpty
     }
 
 }
