@@ -2,10 +2,10 @@
     return "Hello from $name"
 }
 
-function Get-TextFileNames() {
+function Get-TextFileName() {
     Get-ChildItem | Where-Object Name -like *.txt | Select-Object -ExpandProperty Name
 }
 
-function Get-Details {
+function Get-Detail {
     return $env:USERDOMAIN, $env:USERNAME -join '\'
 }
